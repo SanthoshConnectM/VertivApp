@@ -1,8 +1,9 @@
 import React from 'react';
 import {View} from 'react-native';
-import PassCodePage from './components/PasscodePage/PassCodePage';
 import NetInfo from "@react-native-community/netinfo";
-import NoInternetAvailable from './components/ErrorPage/NoInternetAvailable';
+import PassCodePage from './src/components/PasscodePage/PassCodePage';
+import NoInternetAvailable from './src/components/ErrorPage/NoInternetAvailable';
+
 
 interface AppProps {
 
