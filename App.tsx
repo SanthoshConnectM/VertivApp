@@ -1,43 +1,42 @@
 import React from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+import {View} from 'react-native';
+import PassCodePage from './components/PasscodePage/PassCodePage';
+import NetInfo from "@react-native-community/netinfo";
+import NoInternetAvailable from './components/ErrorPage/NoInternetAvailable';
 
-import MyComponent from './components/HomePage/HomePage';
-import Icon  from 'react-native-elements';
+interface AppProps {
+
+}
+interface AppState {
+  connectedToInternet:any,
+  passcodeIsChecked:any
+}
 
 
-const App = () => {
-  return (
-   <View>
-     <MyComponent/>
-   </View>
-  );
-};
+class App extends React.Component<AppProps,AppState>{
+  constructor(props:any){
+    super(props);
+    this.state = {
+      connectedToInternet:true,
+      passcodeIsChecked:false,
+    }
+  }
 
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
+  componentDidMount(){
+    NetInfo.addEventListener(state => {
+      this.setState({connectedToInternet:state.isConnected})
+    })
+  }
+  
 
+  render(){
+    return(
+      <View>
+         {
+           this.state.connectedToInternet ? <PassCodePage/> : <NoInternetAvailable/>
+         } 
+      </View>
+    );
+  }
+}
 export default App;

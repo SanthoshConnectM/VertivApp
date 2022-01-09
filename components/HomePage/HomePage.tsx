@@ -1,18 +1,17 @@
 import * as React from 'react';
 import { Searchbar } from 'react-native-paper';
+import { homeStyleSheet } from './HomePageStyle'
+import { View, Text } from 'react-native';
 
-const MyComponent = () => {
-  const [searchQuery, setSearchQuery] = React.useState('');
 
-  const onChangeSearch = (query:string) => setSearchQuery(query);
+export default class HomePage extends React.Component {
 
-  return (
-    <Searchbar
-      placeholder="Search"
-      onChangeText={onChangeSearch}
-      value={searchQuery}
-    />
-  );
-};
 
-export default MyComponent;
+  render() {
+    return (
+      <View>
+        <Text>Home Page</Text>
+      </View>
+    )
+  }
+}
