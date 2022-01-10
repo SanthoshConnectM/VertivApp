@@ -18,7 +18,7 @@ class App extends React.Component<AppProps,AppState>{
   constructor(props:any){
     super(props);
     this.state = {
-      connectedToInternet:true,
+      connectedToInternet:null,
       passcodeIsChecked:false,
     }
   }

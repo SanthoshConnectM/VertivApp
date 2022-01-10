@@ -10,8 +10,8 @@ const NoInternetAvailable = () => {
             padding:10,
         }}>
             <Image source={require("../../assets/no_wifi.png")} style={{width:50,height:50}}/>
-            <Text style={{ fontSize: 15, color: "black" }}>No Internet available</Text>
-            <Text style={{ fontSize: 15, color: "black" }}>Turn on mobile data or connect to wifi</Text>
+            <Text style={{ fontSize: 15, color: "black", fontFamily: 'Nunito-Regular' }}>No Internet available</Text>
+            <Text style={{ fontSize: 15, color: "black", fontFamily: 'Nunito-Regular' }}>Turn on mobile data or connect to wifi</Text>
         </View>
     );
 }

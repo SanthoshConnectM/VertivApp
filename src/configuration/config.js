@@ -1,6 +1,6 @@
 import { Firebase } from "react-native-firebase";
 
-const firebaseConfig = { 
+export const firebaseConfig = { 
   apiKey: "AIzaSyBpW9obnlnwFepLW-zYsLgoHNaLpCEl-OM", 
   authDomain: "vertivapp.firebaseapp.com", 
   projectId: "vertivapp", 
@@ -11,4 +11,5 @@ const firebaseConfig = {
 }; 
 
 const app = Firebase.initializeApp(firebaseConfig); 
-export const db = app.database();
+const db = app.database();
+export default db;
