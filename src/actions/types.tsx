@@ -1,0 +1,1 @@
+export const GET_FIREBASE_DATA = "GET_FIREBASE_DATA"

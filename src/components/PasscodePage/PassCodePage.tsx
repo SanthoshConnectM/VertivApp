@@ -11,9 +11,6 @@ interface PinCodeState {
     incorrectPasscode: string,
     actualPassCode:string
 }
-
-let passpass = ""
-
 export default class PassCodePage extends React.PureComponent<PinCodeProps, PinCodeState> {
     constructor(props: any) {
         super(props);
@@ -29,38 +26,39 @@ export default class PassCodePage extends React.PureComponent<PinCodeProps, PinC
     }
 
     onKeyPadPress = (e: any) => {
-        let eCode = passpass + e;
-        passpass = eCode
-        console.log("passspassss",eCode)
-        if(eCode.length >= 4){
-            if(eCode === this.state.actualPassCode){
+        let eCode  = this.state.ePassCode + e
+        this.setState({ePassCode:eCode})
+        console.log(this.state.ePassCode)
+        if(this.state.ePassCode.length === 4){
+            if(this.state.ePassCode === this.state.actualPassCode){
                 console.log("NexStateaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
             }else{
                 this.setState({incorrectPasscode:"pincode is incorrect"})
-                passpass = ""
+                this.setState({ePassCode:''})
             }
-        }else{
-            this.setState({incorrectPasscode:"pincode is incorrect"})
-            passpass = ""
         }
+        if(this.state.ePassCode.length > 4){
+            this.setState({incorrectPasscode:"pincode is incorrect"})
+            this.setState({ePassCode:''})
+        }
+        if(this.state.ePassCode.length < 4){
+            this.setState({incorrectPasscode:""})
+        }
+    }
+
+    renderPinText(){
+        return this.state.ePassCode.split("").map((item:any) => <Text key={item} style={{ fontSize: 25, color: "black", fontFamily: 'Nunito-Regular', textAlign: "center", marginTop: 20,marginLeft:50}}>{item}{"    "}</Text>);
     }
 
 
     render() {
         return (
             <SafeAreaView>
-                <Text style={{ fontSize: 25, color: "black", fontFamily: 'Nunito-Regular', textAlign: "center", marginTop: 60 }}>Enter Pincode</Text>
-                {/* <View style={{ flexDirection: "row" }}>
-                    {
-                        this.state.ePassCode && this.state.ePassCode.split("").length != 0 && this.state.ePassCode.split("").map((item: any) => {
-                            return (
-                                <Text style={{ fontSize: 35, color: "black", fontFamily: 'Nunito-Regular', textAlign: "center", marginTop: 20 }}>{item}</Text>
-                            )
-                        })
-                    }
-                </View> */}
+                <Text style={{ fontSize: 25, color: "black", fontFamily: 'Nunito-Regular', textAlign: "center", marginTop: 40 }}>Enter Pincode</Text>
+                <View style={{flexDirection:"row"}}>
+                    {this.renderPinText()}
+                </View>
                 <Text style={{ fontSize: 15, color: "red", fontFamily: 'Nunito-Regular', textAlign: "center", marginTop: 5 }}>{this.state.incorrectPasscode}</Text>
-
                 <View style={{ marginTop: 30, justifyContent: "center", alignItems: "center" }}>
                     <View style={{ flexDirection: "row" }}>
                         {
@@ -129,14 +127,20 @@ const styles = StyleSheet.create({
         textAlign: "center"
     },
     roundButton1: {
-        width: 100,
+        width: 80,
         fontFamily: 'Nunito-Regular',
-        height: 100,
+        height: 80,
         justifyContent: 'center',
         alignItems: 'center',
         padding: 10,
         margin: 10,
         borderRadius: 100,
         backgroundColor: "#DCDCDC",
+    },
+    pincodeText:{
+        fontSize:20,
+        color:"black",
+        justifyContent: "center",
+        alignItems: "center"
     }
 });
