@@ -11,24 +11,24 @@ class App extends React.Component {
 
   }
 
-  createChannel = () => {
-    PushNotification.createChannel(
-      {
-        channelId: "channel-id",
-        channelName: "My channel",
-        channelDescription: "A channel to categorise your notifications",
-        playSound: true,
-        soundName: "default",
-        importance: Importance.HIGH,
-        vibrate: true,
-      },
-      (created) => console.log(`createChannel returned '${created}'`) // (optional) callback returns whether the channel was created, false means it already existed.
-    );
-  }
+  // createChannel = () => {
+  //   PushNotification.createChannel(
+  //     {
+  //       channelId: "channel-id",
+  //       channelName: "My channel",
+  //       channelDescription: "A channel to categorise your notifications",
+  //       playSound: true,
+  //       soundName: "default",
+  //       importance: Importance.HIGH,
+  //       vibrate: true,
+  //     },
+  //     (created) => console.log(`createChannel returned '${created}'`) // (optional) callback returns whether the channel was created, false means it already existed.
+  //   );
+  // }
 
-  componentDidMount() {
-    this.createChannel()
-  }
+  // componentDidMount() {
+  //   this.createChannel()
+  // }
 
   render() {
     return (

@@ -2,7 +2,7 @@ import React from 'react';
 import {Text, View, Image} from 'react-native';
 import { IconButton } from 'react-native-paper';
 
-const FirebaseAuthIssue = () => {
+const NetworkErrorPage = () => {
   return (
     <View
       style={{
@@ -11,13 +11,14 @@ const FirebaseAuthIssue = () => {
         justifyContent: 'center',
         padding: 10,
       }}>
-      <IconButton icon="lock" color="black" size={35} />
-      <Text style={{fontSize: 15, color: 'black'}}>Firebase error</Text>
+
+      <IconButton icon="alert" color="black" size={35} />
+      <Text style={{fontSize: 15, color: 'black'}}>Network Error</Text>
       <Text style={{fontSize: 15, color: 'black'}}>
-        Firebase configuration must be expired or changed
+        Unable to get proper response for the server.
       </Text>
     </View>
   );
 };
 
-export default FirebaseAuthIssue;
+export default NetworkErrorPage;

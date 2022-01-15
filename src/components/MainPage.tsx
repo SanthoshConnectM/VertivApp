@@ -1,15 +1,13 @@
 import React from 'react';
-import { View, Button, Text, StatusBar } from 'react-native';
+import { View } from 'react-native';
 import NetInfo from "@react-native-community/netinfo";
 import NoInternetAvailable from './ErrorPage/NoInternetAvailable';
 import { firebase } from '../configuration/config';
-import FirebaseAuthIssue from './ErrorPage/FirebaseAuthIssue';
-import NoAccessPage from './ErrorPage/NoAccessPage';
 import PassCodePage from './PasscodePage/PassCodePage';
 import { connect } from 'react-redux';
-import { getFirebaseData,firebaseDataReceived,getFirebaseDataErr } from '../actions/index';
+import { getFirebaseData,getFirebaseDataErr } from '../actions/index';
 import HomePage from './HomePage/HomePage';
-
+import FirebaseAuthIssue from './ErrorPage/FirebaseAuthIssue';
 
 class MainPage extends React.PureComponent<any, any>{
   constructor(props: any) {
@@ -18,12 +16,15 @@ class MainPage extends React.PureComponent<any, any>{
     this.state = {
       firebaseData: {},
       connectedToInternet: true,
-      hasUserLoggedIn:false
+      hasUserLoggedIn:false,
+      firebaseError:false
     }
   }
 
   static getDerivedStateFromProps(props:any,state:any){
+    console.log("FB_Propsssssssss",props.data.firebaseerror)
     state.hasUserLoggedIn = props.data.hasUserLoggedIn
+    state.firebaseError = props.data.firebaseerror
     return state;
 }
 
@@ -50,13 +51,31 @@ class MainPage extends React.PureComponent<any, any>{
 
 
   render() {
-    return (
-      <View>     
-        {
-          !this.state.connectedToInternet ? <NoInternetAvailable /> : (  this.state.hasUserLoggedIn ? <HomePage /> : <PassCodePage/>)
-        }
-      </View>
-    )
+    if(!this.state.connectedToInternet){
+      return(
+        <View>
+          <NoInternetAvailable />
+        </View>
+      )
+    }else if(this.state.firebaseError){
+      return(
+        <View>
+          <FirebaseAuthIssue/>
+        </View>
+      )
+    }else if(this.state.hasUserLoggedIn){
+      return(
+        <View>
+          <HomePage />
+        </View>
+      )
+    }else{
+      return(
+        <View>
+          <PassCodePage/>
+        </View>
+      )
+    }
   }
 }
 const mapStateToProps = (state: any) => {

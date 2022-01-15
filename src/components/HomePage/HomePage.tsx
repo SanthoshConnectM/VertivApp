@@ -31,6 +31,10 @@ class HomePage extends React.PureComponent<any,any> {
     this.props.getSiteData()
   }
 
+  static getDerivedStateFromProps(props:any,state:any){
+    return state;
+  }
+
 
   render() {
     return (
