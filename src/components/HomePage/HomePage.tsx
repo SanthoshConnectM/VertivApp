@@ -6,9 +6,16 @@ import SearchBar from './HomeComponents/SearchBar';
 import Dashboard from './HomeComponents/Dashboard';
 import Sandwich from './HomeComponents/Sandwich';
 import SiteItem from './HomeComponents/SiteItem';
+import { connect } from 'react-redux';
+import { getSiteDetails } from '../../actions';
 
 
-export default class HomePage extends React.Component {
+class HomePage extends React.PureComponent<any,any> {
+
+  constructor(props:any){
+    super(props);
+
+  }
 
   // handleNotification = () => {
   //   console.log("Clickeddd")
@@ -18,6 +25,11 @@ export default class HomePage extends React.Component {
   //       message:"BDC6E-1 site is down at Divyashree Tech Park 1"
   //   })
   // }
+
+  componentDidMount(){
+    console.log("ComponentDidMountCaLLED")
+    this.props.getSiteData()
+  }
 
 
   render() {
@@ -34,3 +46,17 @@ export default class HomePage extends React.Component {
     )
   }
 }
+
+const mapStateToProps = (state:any) =>{
+  return state
+}
+
+const mapDispatchToProps = (dispatch:any) => {
+  return{
+    getSiteData: () => {
+      dispatch(getSiteDetails())
+    }
+  }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(HomePage)

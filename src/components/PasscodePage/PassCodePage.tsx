@@ -4,15 +4,17 @@ import {
   Text,
   SafeAreaView,
   StyleSheet,
+  Alert,
   TextInput,
   TouchableOpacity,
 } from 'react-native';
 import {connect} from 'react-redux';
-import { Dimensions } from 'react-native';
-import { GenerateUUID } from 'react-native-uuid';
+import {Dimensions} from 'react-native';
+import {userHasLoggedIn} from '../../actions';
+import HomePage from '../HomePage/HomePage';
 
 const windowWidth = Dimensions.get('window').width;
-const windowHeight : any = Dimensions.get('window').height;
+const windowHeight: any = Dimensions.get('window').height;
 
 class PassCodePage extends React.PureComponent<any, any> {
   constructor(props: any) {
@@ -25,24 +27,42 @@ class PassCodePage extends React.PureComponent<any, any> {
       keyrow3: ['7', '8', '9'],
       incorrectPasscode: '',
       actualPassCode: '',
+      UloggedIn: false,
     };
     this.onKeyPadPress = this.onKeyPadPress.bind(this);
+  }
+
+  componentDidUpdate() {
+    if (this.state.ePassCode.length === 4) {
+      
+      if (this.state.ePassCode == this.state.actualPassCode) {
+        if (this.state.UloggedIn === false) {
+          setTimeout(() => {
+            this.props.userLoggedIn();
+            this.setState({UloggedIn: true});
+          }, 100);
+        }
+      } else {
+        if (this.state.ePassCode !== this.state.actualPassCode) {
+          this.setState({
+            incorrectPasscode: 'pincode was incorrect, try again.',
+          });
+        }
+      }
+    }
+    if (
+      this.state.incorrectPasscode == 'pincode was incorrect, try again.' &&
+      this.state.ePassCode.length === 4
+    ) {
+      setTimeout(() => {
+        this.setState({ePassCode: ''});
+      }, 100);
+    }
   }
 
   onKeyPadPress = (e: any) => {
     let eCode = this.state.ePassCode + e;
     this.setState({ePassCode: eCode});
-    if (this.state.ePassCode.length === 3) {
-      if (this.state.ePassCode === this.state.actualPassCode) {
-        console.log('NexStateaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
-      } else {
-        this.setState({incorrectPasscode: 'pincode is incorrect'});
-        this.setState({ePassCode: ''});
-      }
-    }
-    if (this.state.ePassCode.length < 4) {
-      this.setState({incorrectPasscode: ''});
-    }
   };
 
   static getDerivedStateFromProps(props: any, state: any) {
@@ -51,101 +71,126 @@ class PassCodePage extends React.PureComponent<any, any> {
   }
 
   renderPinText() {
-    return this.state.ePassCode.split('').map((item: any,j:any) => (
-      <Text
-        key={j}
-        style={{
-          fontSize: 25,
-          color: 'black',
-          fontFamily: 'Nunito-Regular',
-          textAlign: 'center',
-          marginLeft: 50,
-          marginTop:20,
-        }}>
-        {item}
-        {'    '}
-      </Text>
-    ));
-  }
-
-  render() {
-    return (
-      <SafeAreaView>
+    if (this.state.ePassCode.split('').length === 0) {
+      return (
         <Text
           style={{
             fontSize: 25,
             color: 'black',
             fontFamily: 'Nunito-Regular',
             textAlign: 'center',
-            marginTop: parseInt(windowHeight)-700,
+            marginLeft: 50,
+            marginTop: 20,
           }}>
-          Enter Pincode
+          {''}
         </Text>
-        <View style={{flexDirection: 'row'}}>{this.renderPinText()}</View>
+      );
+    } else {
+      return this.state.ePassCode.split('').map((item: any, j: any) => (
         <Text
+          key={j}
           style={{
-            fontSize: 15,
-            color: 'red',
+            fontSize: 25,
+            color: 'black',
             fontFamily: 'Nunito-Regular',
             textAlign: 'center',
-            marginTop: 10,
+            marginLeft: 50,
+            marginTop: 20,
           }}>
-          {this.state.incorrectPasscode}
+          {item}
+          {'    '}
         </Text>
-        <View style={{justifyContent: 'center', alignItems: 'center',marginTop:10}}>
-          <View style={{flexDirection: 'row'}}>
-            {this.state.keyrow1.map((item: any) => {
-              return (
-                <TouchableOpacity
-                  key={item}
-                  onPress={() => this.onKeyPadPress(item)}
-                  style={styles.roundButton1}>
-                  <Text style={{fontSize: 25, color: 'black'}} key={item}>
-                    {item}
-                  </Text>
-                </TouchableOpacity>
-              );
-            })}
+      ));
+    }
+  }
+
+  render() {
+    if (this.state.UloggedIn) {
+      return <HomePage />;
+    } else {
+      return (
+        <SafeAreaView>
+          <Text
+            style={{
+              fontSize: 25,
+              color: 'black',
+              fontFamily: 'Nunito-Regular',
+              textAlign: 'center',
+              marginTop: parseInt(windowHeight) - 600,
+            }}>
+            Enter Pincode
+          </Text>
+          <View style={{flexDirection: 'row'}}>{this.renderPinText()}</View>
+          <Text
+            style={{
+              fontSize: 15,
+              color: 'red',
+              fontFamily: 'Nunito-Regular',
+              textAlign: 'center',
+              marginTop: 10,
+            }}>
+            {this.state.incorrectPasscode}
+          </Text>
+          <View
+            style={{
+              justifyContent: 'center',
+              alignItems: 'center',
+              marginTop: 10,
+            }}>
+            <View style={{flexDirection: 'row'}}>
+              {this.state.keyrow1.map((item: any) => {
+                return (
+                  <TouchableOpacity
+                    key={item}
+                    onPress={() => this.onKeyPadPress(item)}
+                    style={styles.roundButton1}>
+                    <Text style={{fontSize: 25, color: 'black'}} key={item}>
+                      {item}
+                    </Text>
+                  </TouchableOpacity>
+                );
+              })}
+            </View>
+            <View style={{flexDirection: 'row', marginTop: 10}}>
+              {this.state.keyrow2.map((item: any) => {
+                return (
+                  <TouchableOpacity
+                    key={item}
+                    onPress={() => this.onKeyPadPress(item)}
+                    style={styles.roundButton1}>
+                    <Text key={item} style={{fontSize: 25, color: 'black'}}>
+                      {item}
+                    </Text>
+                  </TouchableOpacity>
+                );
+              })}
+            </View>
+            <View style={{flexDirection: 'row', marginTop: 10}}>
+              {this.state.keyrow3.map((item: any) => {
+                return (
+                  <TouchableOpacity
+                    key={item}
+                    onPress={() => this.onKeyPadPress(item)}
+                    style={styles.roundButton1}>
+                    <Text key={item} style={{fontSize: 25, color: 'black'}}>
+                      {item}
+                    </Text>
+                  </TouchableOpacity>
+                );
+              })}
+            </View>
+            <View style={{flexDirection: 'row', marginTop: 10}}>
+              <TouchableOpacity
+                key={'0'}
+                onPress={() => this.onKeyPadPress('0')}
+                style={styles.roundButton1}>
+                <Text style={{fontSize: 25, color: 'black'}}>0</Text>
+              </TouchableOpacity>
+            </View>
           </View>
-          <View style={{flexDirection: 'row', marginTop: 10}}>
-            {this.state.keyrow2.map((item: any) => {
-              return (
-                <TouchableOpacity
-                  key={item}
-                  onPress={() => this.onKeyPadPress(item)}
-                  style={styles.roundButton1}>
-                  <Text key={item} style={{fontSize: 25, color: 'black'}}>
-                    {item}
-                  </Text>
-                </TouchableOpacity>
-              );
-            })}
-          </View>
-          <View style={{flexDirection: 'row', marginTop: 10}}>
-            {this.state.keyrow3.map((item: any) => {
-              return (
-                <TouchableOpacity
-                  key={item}
-                  onPress={() => this.onKeyPadPress(item)}
-                  style={styles.roundButton1}>
-                  <Text key={item} style={{fontSize: 25, color: 'black'}}>
-                    {item}
-                  </Text>
-                </TouchableOpacity>
-              );
-            })}
-          </View>
-          <View style={{flexDirection: 'row', marginTop: 10}}>
-            <TouchableOpacity
-              key={'0'}
-              onPress={() => this.onKeyPadPress('0')}
-              style={styles.roundButton1}>
-              <Text style={{fontSize: 25, color: 'black'}}>0</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </SafeAreaView>
-    );
+        </SafeAreaView>
+      );
+    }
   }
 }
 const styles = StyleSheet.create({
@@ -189,4 +234,12 @@ const mapStateToProps = (state: any) => {
   return state;
 };
 
-export default connect(mapStateToProps, null)(PassCodePage);
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    userLoggedIn: () => {
+      dispatch(userHasLoggedIn());
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(PassCodePage);

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Button, Text } from 'react-native';
+import { View, Button, Text, StatusBar } from 'react-native';
 import NetInfo from "@react-native-community/netinfo";
 import NoInternetAvailable from './ErrorPage/NoInternetAvailable';
 import { firebase } from '../configuration/config';
@@ -18,11 +18,12 @@ class MainPage extends React.PureComponent<any, any>{
     this.state = {
       firebaseData: {},
       connectedToInternet: true,
-      hasUserLoggedIn:true
+      hasUserLoggedIn:false
     }
   }
 
   static getDerivedStateFromProps(props:any,state:any){
+    state.hasUserLoggedIn = props.data.hasUserLoggedIn
     return state;
 }
 

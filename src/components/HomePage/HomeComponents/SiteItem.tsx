@@ -7,7 +7,7 @@ import {
   ScrollView,
   Modal,
   StyleSheet,
-  Pressable,
+  Button as RNButton,
 } from 'react-native';
 import {connect} from 'react-redux';
 import {Avatar, Button, Card, Surface} from 'react-native-paper';
@@ -19,7 +19,8 @@ class SiteItem extends React.PureComponent<any, any> {
     this.state = {
       isMessageModalOpen: false,
       isInfoModalOpen: false,
-      showMessageButton: false,
+      showMessageButton: true,
+      modal_data : {},
       siteData: {
         data: [
           {
@@ -207,8 +208,14 @@ class SiteItem extends React.PureComponent<any, any> {
   }
 
   static getDerivedStateFromProps(props: any, state: any) {
-    console.log("SiteItem",props.data.firebaseData.commands_access)
+    if(props.data.firebaseData.modal_data != undefined){
+      let mData : any = JSON.parse(JSON.stringify(props.data.firebaseData.modal_data))
+      console.log('SiteItem',mData['Address']);
+    }
+    //console.log('SiteItem', JSON.parse(props.data.firebaseData.modal_data));
+    // props.data.firebaseData.modal_data
     state.showMessageButton = props.data.firebaseData.commands_access;
+    state.modal_data = props.data.firebaseData.modal_data;
     return state;
   }
 
@@ -216,14 +223,14 @@ class SiteItem extends React.PureComponent<any, any> {
     console.log('MessageClick', item);
   };
 
-  handleInfoClick = (item: any) => {
+  handleInfoClick = () => {
     this.setState({isInfoModalOpen: true});
   };
 
   renderSiteItem = () => {
-    return this.state.siteData.data.map((item: any) => {
+    return this.state.siteData.data.map((item: any,j:any) => {
       return (
-        <Surface style={{elevation: 1, marginTop: 3}}>
+        <Surface style={{elevation: 1, marginTop: 3}} key={j}>
           <View>
             <Modal
               transparent={true}
@@ -233,14 +240,46 @@ class SiteItem extends React.PureComponent<any, any> {
               }}>
               <View style={styles.centeredView}>
                 <View style={styles.modalView}>
-                  <ScrollView>
-                    <Text style={styles.modalText}>Hello World!</Text>
-                  </ScrollView>
-                  <Pressable
-                    style={[styles.button, styles.buttonClose]}
+                  <Text
+                    style={{
+                      marginLeft: 10,
+                      marginTop: -1,
+                      fontSize: 25,
+                      color: 'black',
+                      fontFamily: 'Nunito-Regular',
+                    }}>
+                    Site Details
+                  </Text>
+                  <View style={{marginTop: 10,height:100}}>
+                    <ScrollView>
+                      <View style={{flexDirection:"row",marginTop:10}}> 
+                        <Text
+                          style={{
+                            marginLeft: 10,
+                            marginTop: -1,
+                            color: 'black',
+                            fontSize: 15,
+                            fontFamily: 'Nunito-Regular',
+                          }}>
+                          Address :
+                        </Text>
+                        <Text
+                          style={{
+                            marginLeft: 10,
+                            marginTop: -1,
+                            fontSize: 15,
+                            fontFamily: 'Nunito-Regular',
+                          }}>
+                          {item.ADDRESS}
+                        </Text>
+                      </View>                    
+                    </ScrollView>
+                  </View>
+                  <Button
+                    mode="contained"
                     onPress={() => this.setState({isInfoModalOpen: false})}>
-                    <Text style={styles.textStyle}>Hide Modal</Text>
-                  </Pressable>
+                    close
+                  </Button>
                 </View>
               </View>
             </Modal>
@@ -303,7 +342,7 @@ class SiteItem extends React.PureComponent<any, any> {
                 )}
                 <Button
                   icon={'information'}
-                  onPress={() => this.handleInfoClick(item)}>
+                  onPress={() => this.handleInfoClick()}>
                   INFO
                 </Button>
               </Card.Actions>
@@ -325,8 +364,6 @@ class SiteItem extends React.PureComponent<any, any> {
 const styles = StyleSheet.create({
   centeredView: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
     marginTop: 22,
   },
   modalView: {
@@ -338,8 +375,6 @@ const styles = StyleSheet.create({
       width: 0,
       height: 2,
     },
-    shadowOpacity: 0.25,
-    shadowRadius: 1,
     elevation: 2,
   },
   button: {
