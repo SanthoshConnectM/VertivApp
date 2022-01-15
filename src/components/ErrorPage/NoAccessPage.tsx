@@ -10,8 +10,8 @@ const NoAccessPage = () => {
             padding:10,
         }}>
             <Image source={require("../../assets/no_access.png")} style={{width:50,height:50}}/>
-            <Text style={{ fontSize: 15, color: "black" }}>Access failure</Text>
-            <Text style={{ fontSize: 15, color: "black" }}>Contact admin to enable the access</Text>
+            <Text style={{ fontSize: 15, color: "black" }}>Access Denied</Text>
+            <Text style={{ fontSize: 15, color: "black" }}>You do not have access to use this application</Text>
         </View>
     );
 }

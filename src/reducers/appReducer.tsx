@@ -1,12 +1,13 @@
-import { GET_FIREBASE_DATA } from "../actions/types";
+import { GET_FIREBASE_DATA,GET_FIREBASE_ERR,GET_FIREBASE_RECEIVED } from "../actions/types";
 
 let vertivState:any = {
-    firebaseData:{}
+    firebaseData:{},
+    firebaseerror:false
 }
 
 type Actions = {
     type:any,
-    paylod:any
+    payload:any
 }
 
 export const appReducer = (state=vertivState,action:Actions) => {
@@ -14,7 +15,17 @@ export const appReducer = (state=vertivState,action:Actions) => {
         case GET_FIREBASE_DATA:
             return{
                 ...state,
-                firebaseData: action.paylod
+                firebaseData:action.payload
+            }
+        case GET_FIREBASE_ERR:
+            return{
+                ...state,
+                firebaseerror:action.payload
+            }
+        case GET_FIREBASE_RECEIVED:
+            return{
+                ...state,
+                firebaseData:action.payload
             }
         default:
             return{

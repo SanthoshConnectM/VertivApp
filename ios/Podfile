@@ -18,6 +18,8 @@ target 'VertivApp' do
 
   pod 'RNSVG', :path => '../node_modules/react-native-svg'
 
+  pod 'react-native-shimmer', :path => '../node_modules/react-native-shimmer'
+
   target 'VertivAppTests' do
     inherit! :complete
     # Pods for testing

@@ -4,6 +4,8 @@ import android.app.Application;
 import android.content.Context;
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
+import com.oblador.shimmer.RNShimmerPackage;
+import com.oblador.shimmer.RNShimmerPackage;
 import com.dieam.reactnativepushnotification.ReactNativePushNotificationPackage;
 import com.horcrux.svg.SvgPackage;
 import com.tkporter.sendsms.SendSMSPackage;
