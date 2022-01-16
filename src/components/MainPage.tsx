@@ -22,7 +22,6 @@ class MainPage extends React.PureComponent<any, any>{
   }
 
   static getDerivedStateFromProps(props:any,state:any){
-    console.log("FB_Propsssssssss",props.data.firebaseerror)
     state.hasUserLoggedIn = props.data.hasUserLoggedIn
     state.firebaseError = props.data.firebaseerror
     return state;

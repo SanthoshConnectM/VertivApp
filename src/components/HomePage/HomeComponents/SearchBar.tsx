@@ -2,6 +2,8 @@ import React from 'react';
 import { View } from 'react-native';
 import { Searchbar } from 'react-native-paper';
 import { Keyboard } from 'react-native'; 
+import { connect } from 'react-redux';
+import { setSearchText,clearSearchText } from '../../../actions';
 
 
 
@@ -14,11 +16,15 @@ class SearchBar extends React.PureComponent<any,any> {
     }
 
     onChangeSearch = (query:any) =>{
-        console.log("Searchinggggggggggggggggggg",query.length)
         this.setState({searchText:query})
-        // if(query.length === 0){
-        //     Keyboard.dismiss()
-        // }
+        if(query == ''){
+            this.props.clearSearch()
+        }
+        this.props.insertSearchText(query)
+    }
+
+    static getDerivedStateFromProps(props:any,state:any){
+        return state;
     }
 
     render(): React.ReactNode {
@@ -34,4 +40,19 @@ class SearchBar extends React.PureComponent<any,any> {
     }
 }
 
-export default SearchBar;
+const mapStateToProps = (state:any) => {
+    return state;
+}
+
+const mapDispatchToProps = (dispatch:any) => {
+    return{
+        insertSearchText : (message:any) =>{
+            dispatch(setSearchText(message))
+        },
+        clearSearch : () => {
+            dispatch(clearSearchText())
+        }
+    }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(SearchBar);

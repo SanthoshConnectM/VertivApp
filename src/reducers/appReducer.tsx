@@ -3,13 +3,20 @@ import {
   GET_FIREBASE_ERR,
   GET_FIREBASE_RECEIVED,
   USER_IS_LOGGED_IN,
-  GET_SITE_DATA,
+  GET_SITE_DATA_RECEIVED,
+  SET_SEARCH_TEXT,
+  CLEAR_SEARCH_TEXT,
 } from '../actions/types';
 
 let vertivState: any = {
   firebaseData: {},
   firebaseerror: false,
   hasUserLoggedIn: false,
+  siteData: {},
+  searchText: '',
+
+  //loading state
+  siteDataLoaded: false,
 };
 
 type Actions = {
@@ -34,10 +41,26 @@ export const appReducer = (state = vertivState, action: Actions) => {
         ...state,
         firebaseData: action.payload,
       };
+    case SET_SEARCH_TEXT:
+      return {
+        ...state,
+        searchText: action.payload,
+      };
+    case CLEAR_SEARCH_TEXT:
+      return {
+        ...state,
+        searchText: '',
+      };
     case USER_IS_LOGGED_IN:
       return {
         ...state,
-        hasUserLoggedIn:true
+        hasUserLoggedIn: true,
+      };
+    case GET_SITE_DATA_RECEIVED:
+      return {
+        ...state,
+        siteData: action.payload,
+        siteDataLoaded: true,
       };
     default:
       return {
