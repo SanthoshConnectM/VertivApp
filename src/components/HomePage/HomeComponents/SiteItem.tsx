@@ -12,6 +12,7 @@ import {
 import {connect} from 'react-redux';
 import {Avatar, Button, Card, Surface} from 'react-native-paper';
 
+
 class SiteItem extends React.PureComponent<any, any> {
   constructor(props: any) {
     super(props);
@@ -82,12 +83,12 @@ class SiteItem extends React.PureComponent<any, any> {
                           style={{
                             marginLeft: 10,
                             marginTop: -1,
-                            fontSize: 30,
+                            fontSize: 22,
                             color: 'black',
                             fontFamily: 'Nunito-Regular',
                           }}>
                           {item.capacity}{' '}
-                          {item.tagStatus === 'RTU Running' ? (
+                          {/* {item.tagStatus === 'RTU Running' ? (
                             <Button icon="trending-up" color="green">
                               {''}
                             </Button>
@@ -95,7 +96,7 @@ class SiteItem extends React.PureComponent<any, any> {
                             <Button icon="trending-down" color="red">
                               {''}
                             </Button>
-                          )}
+                          )} */}
                         </Text>
                         {/* <Text style={{ marginLeft: 10, marginTop: -1, fontSize: 15, fontFamily: 'Nunito-Regular' }}>{item.assetId}</Text> */}
                       </View>
@@ -159,12 +160,12 @@ class SiteItem extends React.PureComponent<any, any> {
                           style={{
                             marginLeft: 10,
                             marginTop: -1,
-                            fontSize: 30,
+                            fontSize: 22,
                             color: 'black',
                             fontFamily: 'Nunito-Regular',
                           }}>
                           {item.capacity}{' '}
-                          {item.tagStatus === 'RTU Running' ? (
+                          {/* {item.tagStatus === 'RTU Running' ? (
                             <Button icon="trending-up" color="green">
                               {''}
                             </Button>
@@ -172,7 +173,7 @@ class SiteItem extends React.PureComponent<any, any> {
                             <Button icon="trending-down" color="red">
                               {''}
                             </Button>
-                          )}
+                          )} */}
                         </Text>
                         {/* <Text style={{ marginLeft: 10, marginTop: -1, fontSize: 15, fontFamily: 'Nunito-Regular' }}>{item.assetId}</Text> */}
                       </View>
