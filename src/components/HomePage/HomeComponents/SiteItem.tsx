@@ -5,7 +5,7 @@ import {
   Image,
   View,
   ScrollView,
-  Modal,
+  Alert,
   StyleSheet,
   Button as RNButton,
 } from 'react-native';
@@ -46,6 +46,7 @@ class SiteItem extends React.PureComponent<any, any> {
 
   handleMessageClick = (item: any) => {
     // console.log('MessageClick', item);
+    Alert.alert("Hello")
   };
 
   handleInfoClick = () => {
@@ -59,7 +60,6 @@ class SiteItem extends React.PureComponent<any, any> {
         .toLowerCase()
         .includes(this.state.search_text.toLowerCase());
     });
-    console.log('searchtermmmmmmmmm', data);
     if (data.length == 0) {
       return <Text>No sites found</Text>;
     } else {
@@ -78,37 +78,40 @@ class SiteItem extends React.PureComponent<any, any> {
                       }}
                     />
                     <View>
-                      <View style={{flexDirection: 'row'}}>
+                    <View style={{flexDirection: 'row'}}>
+                        <View style={{flexDirection: 'row'}}>
                         <Text
                           style={{
                             marginLeft: 10,
                             marginTop: -1,
-                            fontSize: 22,
+                            fontSize: 20,
                             color: 'black',
                             fontFamily: 'Nunito-Regular',
                           }}>
-                          {item.capacity}{' '}
-                          {/* {item.tagStatus === 'RTU Running' ? (
-                            <Button icon="trending-up" color="green">
+                          {item.assetId}
+                        </Text>
+                        <View style={{marginTop:-15,marginLeft:-10}}>
+                        {item.tagStatus === 'RTU Running' ? (
+                            <Button icon="trending-up" color="green" labelStyle={{fontSize:25}}>
                               {''}
                             </Button>
                           ) : (
-                            <Button icon="trending-down" color="red">
+                            <Button icon="trending-down" color="red" labelStyle={{fontSize:25}}>
                               {''}
                             </Button>
-                          )} */}
-                        </Text>
-                        {/* <Text style={{ marginLeft: 10, marginTop: -1, fontSize: 15, fontFamily: 'Nunito-Regular' }}>{item.assetId}</Text> */}
+                          )}
+                          </View>
+                          </View>
                       </View>
                       <View>
                         <Text
                           style={{
                             marginLeft: 10,
-                            marginTop: -1,
+                            marginTop: -10,
                             fontSize: 15,
                             fontFamily: 'Nunito-Regular',
                           }}>
-                          {item.assetId}
+                          {item.capacity}
                         </Text>
                       </View>
                     </View>
@@ -156,36 +159,39 @@ class SiteItem extends React.PureComponent<any, any> {
                     />
                     <View>
                       <View style={{flexDirection: 'row'}}>
+                        <View style={{flexDirection: 'row'}}>
                         <Text
                           style={{
                             marginLeft: 10,
                             marginTop: -1,
-                            fontSize: 22,
+                            fontSize: 20,
                             color: 'black',
                             fontFamily: 'Nunito-Regular',
                           }}>
-                          {item.capacity}{' '}
-                          {/* {item.tagStatus === 'RTU Running' ? (
-                            <Button icon="trending-up" color="green">
+                          {item.assetId}
+                        </Text>
+                        <View style={{marginTop:-15,marginLeft:-10}}>
+                        {item.tagStatus === 'RTU Running' ? (
+                            <Button icon="trending-up" color="green" labelStyle={{fontSize:25}}>
                               {''}
                             </Button>
                           ) : (
-                            <Button icon="trending-down" color="red">
+                            <Button icon="trending-down" color="red" labelStyle={{fontSize:25}}>
                               {''}
                             </Button>
-                          )} */}
-                        </Text>
-                        {/* <Text style={{ marginLeft: 10, marginTop: -1, fontSize: 15, fontFamily: 'Nunito-Regular' }}>{item.assetId}</Text> */}
+                          )}
+                          </View>
+                          </View>
                       </View>
                       <View>
                         <Text
                           style={{
                             marginLeft: 10,
-                            marginTop: -1,
+                            marginTop: -10,
                             fontSize: 15,
                             fontFamily: 'Nunito-Regular',
                           }}>
-                          {item.assetId}
+                          {item.capacity}
                         </Text>
                       </View>
                     </View>
@@ -218,7 +224,6 @@ class SiteItem extends React.PureComponent<any, any> {
   };
 
   render(): React.ReactNode {
-    console.log('search query', this.state.search_text);
     if (this.state.search_text == '') {
       return (
         <SafeAreaView style={{marginTop: 5}}>
