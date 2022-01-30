@@ -16,6 +16,7 @@
     "@types/react-native-push-notification": "^7.3.3",
     "axios": "^0.24.0",
     "firebase": "^4.8.0",
+    "lottie-react-native": "^5.0.1",
     "react": "17.0.2",
     "react-native": "0.66.4",
     "react-native-btr": "^2.1.2",
