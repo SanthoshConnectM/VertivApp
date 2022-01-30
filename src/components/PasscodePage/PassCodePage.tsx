@@ -9,12 +9,10 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import {connect} from 'react-redux';
-import {Dimensions} from 'react-native';
 import {userHasLoggedIn} from '../../actions';
 import HomePage from '../HomePage/HomePage';
 
-const windowWidth = Dimensions.get('window').width;
-const windowHeight: any = Dimensions.get('window').height;
+
 
 class PassCodePage extends React.PureComponent<any, any> {
   constructor(props: any) {
@@ -79,7 +77,8 @@ class PassCodePage extends React.PureComponent<any, any> {
             color: 'black',
             fontFamily: 'Nunito-Regular',
             textAlign: 'center',
-            marginLeft: 50,
+            justifyContent:"center",
+            letterSpacing:7,
             marginTop: 20,
           }}>
           {''}
@@ -116,7 +115,7 @@ class PassCodePage extends React.PureComponent<any, any> {
               color: 'black',
               fontFamily: 'Nunito-Regular',
               textAlign: 'center',
-              marginTop: parseInt(windowHeight) - 600,
+              marginTop: '40%',
             }}>
             Enter Pincode
           </Text>

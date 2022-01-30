@@ -4,6 +4,9 @@ import { Provider } from 'react-redux';
 import { store } from './src/reducers/store';
 import PushNotification, { Importance } from 'react-native-push-notification';
 import MainPage from './src/components/MainPage';
+import { LogBox } from 'react-native';
+LogBox.ignoreLogs(['Warning: ...']);
+LogBox.ignoreAllLogs();
 
 class App extends React.Component {
   constructor(props: any) {
