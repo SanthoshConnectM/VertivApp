@@ -115,7 +115,7 @@ class PassCodePage extends React.PureComponent<any, any> {
               color: 'black',
               fontFamily: 'Nunito-Regular',
               textAlign: 'center',
-              marginTop: '40%',
+              marginTop: '20%',
             }}>
             Enter Pincode
           </Text>

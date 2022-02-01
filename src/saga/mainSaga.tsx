@@ -24,7 +24,7 @@ export function* fetchSiteDataSaga(){
 
 function fetchSiteDataApi() {
     const response = axios.get(
-        'http://192.168.65.16:8071/vertiv');
+        'http://192.168.43.16:8071/vertiv');
     return response;
   }
   
