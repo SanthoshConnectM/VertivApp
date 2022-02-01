@@ -39,7 +39,7 @@ class MainPage extends React.PureComponent<any, any> {
     var that = this;
     setTimeout(function () {
       that.hideSplashScreen();
-    }, 3300);
+    }, 3600);
     try {
       firebase
         .database()
