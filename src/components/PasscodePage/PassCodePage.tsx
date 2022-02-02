@@ -7,12 +7,11 @@ import {
   Alert,
   TextInput,
   TouchableOpacity,
+  ScrollView,
 } from 'react-native';
 import {connect} from 'react-redux';
 import {userHasLoggedIn} from '../../actions';
 import HomePage from '../HomePage/HomePage';
-
-
 
 class PassCodePage extends React.PureComponent<any, any> {
   constructor(props: any) {
@@ -32,7 +31,6 @@ class PassCodePage extends React.PureComponent<any, any> {
 
   componentDidUpdate() {
     if (this.state.ePassCode.length === 4) {
-      
       if (this.state.ePassCode == this.state.actualPassCode) {
         if (this.state.UloggedIn === false) {
           setTimeout(() => {
@@ -76,9 +74,6 @@ class PassCodePage extends React.PureComponent<any, any> {
             fontSize: 25,
             color: 'black',
             fontFamily: 'Nunito-Regular',
-            textAlign: 'center',
-            justifyContent:"center",
-            letterSpacing:7,
             marginTop: 20,
           }}>
           {''}
@@ -91,13 +86,12 @@ class PassCodePage extends React.PureComponent<any, any> {
           style={{
             fontSize: 25,
             color: 'black',
+            fontWeight: 'bold',
             fontFamily: 'Nunito-Regular',
-            textAlign: 'center',
-            marginLeft: 50,
+            letterSpacing: 50,
             marginTop: 20,
           }}>
-          {item}
-          {'    '}
+          {'*'}
         </Text>
       ));
     }
@@ -109,84 +103,88 @@ class PassCodePage extends React.PureComponent<any, any> {
     } else {
       return (
         <SafeAreaView>
-          <Text
-            style={{
-              fontSize: 25,
-              color: 'black',
-              fontFamily: 'Nunito-Regular',
-              textAlign: 'center',
-              marginTop: '20%',
-            }}>
-            Enter Pincode
-          </Text>
-          <View style={{flexDirection: 'row'}}>{this.renderPinText()}</View>
-          <Text
-            style={{
-              fontSize: 15,
-              color: 'red',
-              fontFamily: 'Nunito-Regular',
-              textAlign: 'center',
-              marginTop: 10,
-            }}>
-            {this.state.incorrectPasscode}
-          </Text>
-          <View
-            style={{
-              justifyContent: 'center',
-              alignItems: 'center',
-              marginTop: 10,
-            }}>
-            <View style={{flexDirection: 'row'}}>
-              {this.state.keyrow1.map((item: any) => {
-                return (
-                  <TouchableOpacity
-                    key={item}
-                    onPress={() => this.onKeyPadPress(item)}
-                    style={styles.roundButton1}>
-                    <Text style={{fontSize: 25, color: 'black'}} key={item}>
-                      {item}
-                    </Text>
-                  </TouchableOpacity>
-                );
-              })}
+          <ScrollView>
+            <Text
+              style={{
+                fontSize: 25,
+                color: 'black',
+                fontFamily: 'Nunito-Regular',
+                textAlign: 'center',
+                marginTop: '20%',
+              }}>
+              Enter Pincode
+            </Text>
+            <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+              {this.renderPinText()}
             </View>
-            <View style={{flexDirection: 'row', marginTop: 10}}>
-              {this.state.keyrow2.map((item: any) => {
-                return (
-                  <TouchableOpacity
-                    key={item}
-                    onPress={() => this.onKeyPadPress(item)}
-                    style={styles.roundButton1}>
-                    <Text key={item} style={{fontSize: 25, color: 'black'}}>
-                      {item}
-                    </Text>
-                  </TouchableOpacity>
-                );
-              })}
+            <Text
+              style={{
+                fontSize: 15,
+                color: 'red',
+                fontFamily: 'Nunito-Regular',
+                textAlign: 'center',
+                marginTop: 10,
+              }}>
+              {this.state.incorrectPasscode}
+            </Text>
+            <View
+              style={{
+                justifyContent: 'center',
+                alignItems: 'center',
+                marginTop: 10,
+              }}>
+              <View style={{flexDirection: 'row'}}>
+                {this.state.keyrow1.map((item: any) => {
+                  return (
+                    <TouchableOpacity
+                      key={item}
+                      onPress={() => this.onKeyPadPress(item)}
+                      style={styles.roundButton1}>
+                      <Text style={{fontSize: 25, color: 'black'}} key={item}>
+                        {item}
+                      </Text>
+                    </TouchableOpacity>
+                  );
+                })}
+              </View>
+              <View style={{flexDirection: 'row', marginTop: 10}}>
+                {this.state.keyrow2.map((item: any) => {
+                  return (
+                    <TouchableOpacity
+                      key={item}
+                      onPress={() => this.onKeyPadPress(item)}
+                      style={styles.roundButton1}>
+                      <Text key={item} style={{fontSize: 25, color: 'black'}}>
+                        {item}
+                      </Text>
+                    </TouchableOpacity>
+                  );
+                })}
+              </View>
+              <View style={{flexDirection: 'row', marginTop: 10}}>
+                {this.state.keyrow3.map((item: any) => {
+                  return (
+                    <TouchableOpacity
+                      key={item}
+                      onPress={() => this.onKeyPadPress(item)}
+                      style={styles.roundButton1}>
+                      <Text key={item} style={{fontSize: 25, color: 'black'}}>
+                        {item}
+                      </Text>
+                    </TouchableOpacity>
+                  );
+                })}
+              </View>
+              <View style={{flexDirection: 'row', marginTop: 10}}>
+                <TouchableOpacity
+                  key={'0'}
+                  onPress={() => this.onKeyPadPress('0')}
+                  style={styles.roundButton1}>
+                  <Text style={{fontSize: 25, color: 'black'}}>0</Text>
+                </TouchableOpacity>
+              </View>
             </View>
-            <View style={{flexDirection: 'row', marginTop: 10}}>
-              {this.state.keyrow3.map((item: any) => {
-                return (
-                  <TouchableOpacity
-                    key={item}
-                    onPress={() => this.onKeyPadPress(item)}
-                    style={styles.roundButton1}>
-                    <Text key={item} style={{fontSize: 25, color: 'black'}}>
-                      {item}
-                    </Text>
-                  </TouchableOpacity>
-                );
-              })}
-            </View>
-            <View style={{flexDirection: 'row', marginTop: 10}}>
-              <TouchableOpacity
-                key={'0'}
-                onPress={() => this.onKeyPadPress('0')}
-                style={styles.roundButton1}>
-                <Text style={{fontSize: 25, color: 'black'}}>0</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
+          </ScrollView>
         </SafeAreaView>
       );
     }
