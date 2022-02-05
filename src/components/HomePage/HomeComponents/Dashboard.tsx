@@ -92,7 +92,6 @@ class Dashboard extends React.Component<any, any> {
               flexDirection: 'row',
               margin: 5,
               marginTop:-5,
-              marginRight:30,
               justifyContent: 'space-evenly',
             }}>
             <Text
@@ -101,7 +100,7 @@ class Dashboard extends React.Component<any, any> {
                 color: 'black',
                 fontFamily: 'Nunito-Regular',
               }}>
-              Active rate
+              Active
             </Text>
             <Text
               style={{
