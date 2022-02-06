@@ -8,7 +8,6 @@ import Sandwich from './HomeComponents/Sandwich';
 import SiteItem from './HomeComponents/SiteItem';
 import {connect} from 'react-redux';
 import {getSiteDetails} from '../../actions';
-import SkeletonLayout from './SkeletonLoader/SkeletonLayout';
 
 class HomePage extends React.PureComponent<any, any> {
   constructor(props: any) {
@@ -55,7 +54,7 @@ class HomePage extends React.PureComponent<any, any> {
         </View>
       );
     } else {
-      return <SkeletonLayout />;
+      return <Text>Hello</Text>;
     }
   }
 }
