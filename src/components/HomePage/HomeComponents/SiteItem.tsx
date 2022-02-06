@@ -314,7 +314,7 @@ class SiteItem extends React.PureComponent<any, any> {
                 marginTop: 5,
                 marginLeft: 10,
               }}>
-              Choose a command
+              ●  Choose a command
             </Text>
 
             <View style={{marginTop: 10, height: '100%', flex: 1}}>
