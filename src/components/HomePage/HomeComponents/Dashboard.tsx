@@ -34,9 +34,10 @@ class Dashboard extends React.Component<any, any> {
                 style={{
                   flexDirection: 'row',
                   padding: 5,
-                  justifyContent:"center",
+                  marginLeft:"10%",
+                  justifyContent:"space-evenly",
                 }}>
-                <View style={{flexDirection: 'row',marginLeft:20}}>
+                <View style={{flexDirection: 'row'}}>
                   <Text
                     style={{
                       fontSize: 40,
@@ -52,7 +53,7 @@ class Dashboard extends React.Component<any, any> {
                     style={{marginTop: 15, marginLeft: -6}}
                   />
                 </View>
-                <View style={{flexDirection: 'row',marginLeft:25}}>
+                <View style={{flexDirection: 'row'}}>
                   <Text
                     style={{
                       fontSize: 40,
@@ -68,7 +69,7 @@ class Dashboard extends React.Component<any, any> {
                     style={{marginTop: 15, marginLeft: -6}}
                   />
                 </View>
-                <View style={{flexDirection: 'row',marginLeft:25}}>
+                <View style={{flexDirection: 'row'}}>
                   <Text
                     style={{
                       fontSize: 40,
@@ -91,7 +92,7 @@ class Dashboard extends React.Component<any, any> {
             style={{
               flexDirection: 'row',
               margin: 5,
-              marginTop:-5,
+              marginTop:-10,
               justifyContent: 'space-evenly',
             }}>
             <Text
