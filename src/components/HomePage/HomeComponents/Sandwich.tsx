@@ -31,7 +31,7 @@ class Sandwich extends React.PureComponent<any, any> {
               fontFamily: 'Nunito-Regular',
               marginTop: 3,
             }}>
-            Total sites[{this.state.total_sites}]
+            Total sites({this.state.total_sites})
           </Text>
         </View>
       </View>

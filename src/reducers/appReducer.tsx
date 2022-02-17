@@ -4,8 +4,10 @@ import {
   GET_FIREBASE_RECEIVED,
   USER_IS_LOGGED_IN,
   GET_SITE_DATA_RECEIVED,
+  GET_SITE_DATA_FAILED,
   SET_SEARCH_TEXT,
   CLEAR_SEARCH_TEXT,
+  SITE_DATA_IS_LOADING,
 } from '../actions/types';
 
 let vertivState: any = {
@@ -14,9 +16,13 @@ let vertivState: any = {
   hasUserLoggedIn: false,
   siteData: {},
   searchText: '',
+  siteDataFetchFailed:false,
 
   //loading state
   siteDataLoaded: false,
+
+  //animation state
+  siteDataIsLoading:true,
 };
 
 type Actions = {
@@ -62,6 +68,16 @@ export const appReducer = (state = vertivState, action: Actions) => {
         siteData: action.payload,
         siteDataLoaded: true,
       };
+    case GET_SITE_DATA_FAILED:
+      return{
+        ...state,
+        siteDataFetchFailed:true,
+      }
+    case SITE_DATA_IS_LOADING:
+      return{
+        ...state,
+        siteDataIsLoading:action.payload 
+      }
     default:
       return {
         ...state,

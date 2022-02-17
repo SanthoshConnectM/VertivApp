@@ -13,9 +13,9 @@ const NetworkErrorPage = () => {
       }}>
 
       <IconButton icon="alert" color="black" size={35} />
-      <Text style={{fontSize: 15, color: 'black'}}>Network Error</Text>
-      <Text style={{fontSize: 15, color: 'black'}}>
-        Unable to get proper response for the server.
+      <Text style={{fontSize: 15, color: 'black',fontFamily: 'Nunito-Regular'}}>Network Error</Text>
+      <Text style={{fontSize: 15, color: 'black',fontFamily: 'Nunito-Regular'}}>
+        Unable to get response from server.
       </Text>
     </View>
   );

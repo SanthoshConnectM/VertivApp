@@ -6,10 +6,9 @@ export function* watchMainSaga(){
     yield takeLatest(GET_SITE_DATA,fetchSiteDataSaga)
 }
 
-export function* fetchSiteDataSaga(){
+export function* fetchSiteDataSaga(reqPayload:any){
     try{
-
-        let {data} = yield call(fetchSiteDataApi)
+        let {data} = yield call(fetchSiteDataApi,reqPayload)
         yield put({
             type:GET_SITE_DATA_RECEIVED,
             payload:data
@@ -22,9 +21,10 @@ export function* fetchSiteDataSaga(){
     }
 }
 
-function fetchSiteDataApi() {
-    const response = axios.get(
-        'http://192.168.43.16:8071/vertiv');
+function fetchSiteDataApi(reqPayload:any) {
+    // const response = axios.get(
+    //     'http://192.168.43.16:8071/vertiv');
+    const response = axios.get(reqPayload.payload.siteURL, { headers: { 'Authorization': reqPayload.payload.siteAuth} })
     return response;
   }
   

@@ -5,7 +5,8 @@ import {
   USER_IS_LOGGED_IN,
   GET_SITE_DATA,
   SET_SEARCH_TEXT,
-  CLEAR_SEARCH_TEXT
+  CLEAR_SEARCH_TEXT,
+  SITE_DATA_IS_LOADING
 } from './types';
 
 export const getFirebaseData = (message: any) => {
@@ -49,8 +50,16 @@ export const userHasLoggedIn = () => {
   };
 };
 
-export const getSiteDetails = () => {
+export const getSiteDetails = (reqPayload:any) => {
   return {
     type: GET_SITE_DATA,
+    payload:reqPayload
   };
 };
+
+export const siteDataIsLoading = (data:any) => {
+  return{
+    type:SITE_DATA_IS_LOADING,
+    payload:data
+  }
+} 

@@ -21,6 +21,8 @@ import {
 } from 'react-native-paper';
 import {BottomSheet} from 'react-native-btr';
 import SendSMS from 'react-native-sms'
+import SiteLoader from './SiteLoader';
+import {siteDataIsLoading} from './../../../actions/index';
 
 class SiteItem extends React.PureComponent<any, any> {
   constructor(props: any) {
@@ -38,6 +40,7 @@ class SiteItem extends React.PureComponent<any, any> {
       infoModalData: '',
       smsNumber: '',
       smsSiteName: '',
+      pageSize:25,
     };
   }
 
@@ -164,7 +167,7 @@ class SiteItem extends React.PureComponent<any, any> {
 
   renderSiteItem = () => {
     if (Object.keys(this.state.siteData).length != 0) {
-      return this.state.siteData.data.map((item: any, j: any) => {
+      return this.state.siteData.data.slice(0,this.state.pageSize).map((item: any, j: any) => {
         return (
           <Surface style={{elevation: 1, marginTop: 3}} key={j}>
             <ScrollView horizontal={true}>
@@ -249,7 +252,10 @@ class SiteItem extends React.PureComponent<any, any> {
         );
       });
     } else {
-      return <Text>Helloooooooo</Text>;
+      {
+        console.log("sitedataLoader",this.props)
+      }
+      return <SiteLoader/>;
     }
   };
 
@@ -467,5 +473,6 @@ const styles = StyleSheet.create({
     },
   },
 });
+
 
 export default connect(mapStateToProps, null)(SiteItem);

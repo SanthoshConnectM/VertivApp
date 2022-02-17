@@ -7,7 +7,7 @@ export function getActiveRate(data:any){
             }
         })
     }else{
-        return 'N/A'
+        return 'NA'
     }
     return Math.round((healthySite / data.length) * 100)
 }
@@ -21,7 +21,7 @@ export function getHealthySites(data:any) {
             }
         })
     }else{
-        return 'N/A'
+        return 'NA'
     }
     return healthySite;
 }
@@ -35,7 +35,7 @@ export function getFaultySites(data:any){
             }
         })
     }else{
-        return 'N/A'
+        return 'NA'
     }
     return data.length - healthySite;
 }

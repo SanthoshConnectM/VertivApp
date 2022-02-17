@@ -8,14 +8,21 @@ import Sandwich from './HomeComponents/Sandwich';
 import SiteItem from './HomeComponents/SiteItem';
 import {connect} from 'react-redux';
 import {getSiteDetails} from '../../actions';
+import NetworkErrorPage from '../ErrorPage/NetworkErrorPage';
+import {siteDataIsLoading} from './../../actions/index';
 
 class HomePage extends React.PureComponent<any, any> {
   constructor(props: any) {
     super(props);
 
     this.state = {
-      showMainContent: true,
+      showMainContent: false,
       refreshing:false,
+      siteCredentials :{
+        siteURL:"",
+        siteAuth:""
+      },
+      networkIssue:false,
     };
   }
 
@@ -27,19 +34,27 @@ class HomePage extends React.PureComponent<any, any> {
   //       message:"BDC6E-1 site is down at Divyashree Tech Park 1"
   //   })
   // }
+  
+  static getDerivedStateFromProps(props:any,state:any){
+    state.siteCredentials.siteURL = props.data.firebaseData.site_url
+    state.siteCredentials.siteAuth = props.data.firebaseData.site_auth
+    state.networkIssue = props.data.siteDataFetchFailed
+    return state;
+  }
+
 
   componentDidMount() {
-    this.props.getSiteData();
+    this.props.getSiteData(this.state.siteCredentials);
   }
 
   onRefresh(){
-    this.props.getSiteData();
+    this.props.getSiteData(this.state.siteCredentials);
   }
 
 
 
   render() {
-    if (this.state.showMainContent) {
+    if (!this.state.networkIssue) {
       return (
         <View style={{margin: 7}}>
           <SearchBar />
@@ -54,7 +69,7 @@ class HomePage extends React.PureComponent<any, any> {
         </View>
       );
     } else {
-      return <Text>Hello</Text>;
+      return <NetworkErrorPage/>;
     }
   }
 }
@@ -65,8 +80,11 @@ const mapStateToProps = (state: any) => {
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    getSiteData: () => {
-      dispatch(getSiteDetails());
+    getSiteData: (reqPayload:any) => {
+      dispatch(getSiteDetails(reqPayload));
+    },
+    getSiteDataLoading: (reqPayload:any) => {
+      dispatch(siteDataIsLoading(reqPayload));
     },
   };
 };
