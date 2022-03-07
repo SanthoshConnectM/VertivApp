@@ -23,7 +23,7 @@ class SiteLoader extends React.Component {
             speed={1}
           />
         </View>
-        <Text style={{textAlign:"center",fontFamily: 'Nunito-Regular',fontSize:17,color:"black"}}>Fetching site details</Text>
+        <Text style={{textAlign:"center",fontFamily: 'Nunito-Regular',fontSize:17,color:"black"}}>fetching site details</Text>
       </View>
     );
   }

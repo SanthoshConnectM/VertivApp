@@ -56,7 +56,7 @@ class HomePage extends React.PureComponent<any, any> {
   render() {
     if (!this.state.networkIssue) {
       return (
-        <View style={{margin: 7}}>
+        <View style={{margin: 15}}>
           <SearchBar />
           <ScrollView
             refreshControl={

@@ -10,19 +10,22 @@ import {
   TouchableOpacity,
   Button as RNButton,
 } from 'react-native';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import {
   Provider,
   Button,
   Card,
   Surface,
-  Portal,
+  FAB,
   TextInput,
 } from 'react-native-paper';
-import {BottomSheet} from 'react-native-btr';
+import { BottomSheet } from 'react-native-btr';
 import SendSMS from 'react-native-sms'
 import SiteLoader from './SiteLoader';
-import {siteDataIsLoading} from './../../../actions/index';
+import { Dimensions } from 'react-native';
+
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 
 class SiteItem extends React.PureComponent<any, any> {
   constructor(props: any) {
@@ -40,7 +43,7 @@ class SiteItem extends React.PureComponent<any, any> {
       infoModalData: '',
       smsNumber: '',
       smsSiteName: '',
-      pageSize:25,
+      pageSize: 25,
     };
   }
 
@@ -65,7 +68,7 @@ class SiteItem extends React.PureComponent<any, any> {
   };
 
   handleInfoClick = (item: any) => {
-    this.setState({isInfoModalOpen: true, infoModalData: item});
+    this.setState({ isInfoModalOpen: true, infoModalData: item });
   };
 
   renderSearchSiteItem = () => {
@@ -80,21 +83,24 @@ class SiteItem extends React.PureComponent<any, any> {
     } else {
       return data.map((item: any, j: any) => {
         return (
-          <Surface style={{elevation: 1, marginTop: 3}} key={j}>
+          <Surface style={{ elevation: 1, marginTop: 3 }} key={j}>
+            {
+              console.log("RenderMethodCalled")
+            }
             <ScrollView horizontal={true}>
               <Card elevation={2}>
                 <Card.Content>
-                  <View style={{flexDirection: 'row'}}>
+                  <View style={{ flexDirection: 'row' }}>
                     <Image
-                      style={{width: 50, height: 50}}
+                      style={{ width: 50, height: 50 }}
                       source={{
                         uri:
                           'https://vertiv.yantracloud.io/' + item.assetImageUrl,
                       }}
                     />
                     <View>
-                      <View style={{flexDirection: 'row'}}>
-                        <View style={{flexDirection: 'row'}}>
+                      <View style={{ flexDirection: 'row' }}>
+                        <View style={{ flexDirection: 'row' }}>
                           <Text
                             style={{
                               marginLeft: 10,
@@ -105,19 +111,19 @@ class SiteItem extends React.PureComponent<any, any> {
                             }}>
                             {item.assetId}
                           </Text>
-                          <View style={{marginTop: -15, marginLeft: -10}}>
+                          <View style={{ marginTop: -15, marginLeft: -10 }}>
                             {item.tagStatus === 'RTU Running' ? (
                               <Button
                                 icon="trending-up"
                                 color="green"
-                                labelStyle={{fontSize: 25}}>
+                                labelStyle={{ fontSize: 25 }}>
                                 {''}
                               </Button>
                             ) : (
                               <Button
                                 icon="trending-down"
                                 color="red"
-                                labelStyle={{fontSize: 25}}>
+                                labelStyle={{ fontSize: 25 }}>
                                 {''}
                               </Button>
                             )}
@@ -167,23 +173,23 @@ class SiteItem extends React.PureComponent<any, any> {
 
   renderSiteItem = () => {
     if (Object.keys(this.state.siteData).length != 0) {
-      return this.state.siteData.data.slice(0,this.state.pageSize).map((item: any, j: any) => {
+      return this.state.siteData.data.slice(1, 10).map((item: any, j: any) => {
         return (
-          <Surface style={{elevation: 1, marginTop: 3}} key={j}>
-            <ScrollView horizontal={true}>
-              <Card elevation={2}>
+          <Surface style={{ elevation: 5, marginTop: 3 }} key={j}>
+            <ScrollView horizontal={true} >
+              <Card elevation={1}>
                 <Card.Content>
-                  <View style={{flexDirection: 'row'}}>
+                  <View style={{ flexDirection: 'row' }}>
                     <Image
-                      style={{width: 50, height: 50}}
+                      style={{ width: 50, height: 50 }}
                       source={{
                         uri:
                           'https://vertiv.yantracloud.io/' + item.assetImageUrl,
                       }}
                     />
                     <View>
-                      <View style={{flexDirection: 'row'}}>
-                        <View style={{flexDirection: 'row'}}>
+                      <View style={{ flexDirection: 'row' }}>
+                        <View style={{ flexDirection: 'row' }}>
                           <Text
                             style={{
                               marginLeft: 10,
@@ -194,19 +200,19 @@ class SiteItem extends React.PureComponent<any, any> {
                             }}>
                             {item.assetId}
                           </Text>
-                          <View style={{marginTop: -15, marginLeft: -10}}>
+                          <View style={{ marginTop: -15, marginLeft: -10 }}>
                             {item.tagStatus === 'RTU Running' ? (
                               <Button
                                 icon="trending-up"
                                 color="green"
-                                labelStyle={{fontSize: 25}}>
+                                labelStyle={{ fontSize: 25 }}>
                                 {''}
                               </Button>
                             ) : (
                               <Button
                                 icon="trending-down"
                                 color="red"
-                                labelStyle={{fontSize: 25}}>
+                                labelStyle={{ fontSize: 25 }}>
                                 {''}
                               </Button>
                             )}
@@ -253,19 +259,19 @@ class SiteItem extends React.PureComponent<any, any> {
       });
     } else {
       {
-        console.log("sitedataLoader",this.props)
+        console.log("sitedataLoader", this.props)
       }
-      return <SiteLoader/>;
+      return <SiteLoader />;
     }
   };
 
-  onMessageGo(item:any){
+  onMessageGo(item: any) {
     SendSMS.send({
       body: item,
       successTypes: ['sent', 'queued'],
       recipients: new Array(this.state.smsNumber),
       allowAndroidSendWithoutReadPermission: true
-   }, (completed, cancelled, error) => {
+    }, (completed, cancelled, error) => {
       console.log('SMS Callback: completed: ' + completed + ' cancelled: ' + cancelled + 'error: ' + error);
     });
   }
@@ -275,7 +281,7 @@ class SiteItem extends React.PureComponent<any, any> {
       return (
         <BottomSheet visible={this.state.isMessageModalOpen}>
           <View style={styles.bottomNavigationView}>
-            <View style={{flexDirection: 'row'}}>
+            <View style={{ flexDirection: 'row' }}>
               <Text
                 style={{
                   marginLeft: 10,
@@ -287,9 +293,9 @@ class SiteItem extends React.PureComponent<any, any> {
                 Instant SMS
               </Text>
               <Button
-                style={{marginLeft: 'auto'}}
+                style={{ marginLeft: 'auto' }}
                 icon="close"
-                onPress={() => this.setState({isMessageModalOpen: false})}>
+                onPress={() => this.setState({ isMessageModalOpen: false })}>
                 Close
               </Button>
             </View>
@@ -297,19 +303,19 @@ class SiteItem extends React.PureComponent<any, any> {
               style={{
                 marginLeft: 10,
                 fontSize: 15,
-                marginTop: 5,
+                marginTop: 2,
                 fontFamily: 'Nunito-Regular',
               }}>
-              Sending SMS command for {this.state.smsSiteName}
+              Sending command for {this.state.smsSiteName}
             </Text>
 
             <TextInput
               label="SIM number (editable)"
               mode="flat"
               keyboardType='numeric'
-              onChangeText={text => this.setState({smsNumber: text})}
+              onChangeText={text => this.setState({ smsNumber: text })}
               value={this.state.smsNumber}
-              style={{width: '98%', marginTop: 15, marginLeft: 10}}
+              style={{ marginRight: 10, marginTop: 15, marginLeft: 10 }}
             />
 
             <Text
@@ -323,12 +329,12 @@ class SiteItem extends React.PureComponent<any, any> {
               ●  Choose a command
             </Text>
 
-            <View style={{marginTop: 10, height: '100%', flex: 1}}>
+            <View style={{ marginTop: 10, height: '100%', flex: 1 }}>
               <ScrollView>
-                {this.state.commands_list.map((item: any,j:any) => {
+                {this.state.commands_list.map((item: any, j: any) => {
                   return (
-                    <TouchableOpacity onPress={() =>  this.onMessageGo(item.split(":")[0])} key={j}>
-                      <View style={{marginLeft: 10, marginTop: 10}}>
+                    <TouchableOpacity onPress={() => this.onMessageGo(item.split(":")[0])} key={j}>
+                      <View style={{ marginLeft: 10, marginTop: 10 }}>
                         <Text
                           style={{
                             color: 'black',
@@ -337,7 +343,7 @@ class SiteItem extends React.PureComponent<any, any> {
                           }}>
                           {item.split(':')[0]}
                         </Text>
-                        <Text style={{fontFamily: 'Nunito-Regular'}}>
+                        <Text style={{ fontFamily: 'Nunito-Regular' }}>
                           {item.split(':')[1]}
                         </Text>
                         <View
@@ -359,7 +365,7 @@ class SiteItem extends React.PureComponent<any, any> {
       return (
         <BottomSheet visible={this.state.isInfoModalOpen}>
           <View style={styles.bottomNavigationView}>
-            <View style={{flexDirection: 'row'}}>
+            <View style={{ flexDirection: 'row' }}>
               <Text
                 style={{
                   marginLeft: 10,
@@ -371,10 +377,10 @@ class SiteItem extends React.PureComponent<any, any> {
                 Site Details
               </Text>
               <Button
-                style={{marginLeft: 'auto'}}
+                style={{ marginLeft: 'auto' }}
                 icon="close"
                 onPress={() =>
-                  this.setState({isInfoModalOpen: false, infoModalData: ''})
+                  this.setState({ isInfoModalOpen: false, infoModalData: '' })
                 }>
                 Close
               </Button>
@@ -383,16 +389,16 @@ class SiteItem extends React.PureComponent<any, any> {
               style={{
                 marginLeft: 10,
                 fontSize: 15,
-                marginTop: 5,
+                marginTop: 2,
                 fontFamily: 'Nunito-Regular',
               }}>
               Showing details for {this.state.infoModalData.capacity}
             </Text>
-            <View style={{marginTop: 10, height: '100%', flex: 1}}>
+            <View style={{ marginTop: 10, height: '100%', flex: 1 }}>
               <ScrollView>
-                {this.state.modal_data.map((item: any,j:any) => {
+                {this.state.modal_data.map((item: any, j: any) => {
                   return (
-                    <View style={{padding: 8}} key={j}>
+                    <View style={{ padding: 8 }} key={j}>
                       <Text
                         style={{
                           fontFamily: 'Nunito-Regular',
@@ -410,10 +416,10 @@ class SiteItem extends React.PureComponent<any, any> {
                         {this.state.infoModalData[item.split(':')[1]]}
                       </Text>
                       <View
-                          style={{
-                            height: 1,
-                            backgroundColor: '#DCDCDC',
-                          }}></View>
+                        style={{
+                          height: 1,
+                          backgroundColor: '#DCDCDC',
+                        }}></View>
                     </View>
                   );
                 })}
@@ -425,11 +431,19 @@ class SiteItem extends React.PureComponent<any, any> {
     }
     if (this.state.search_text == '') {
       return (
-        <View style={{marginTop: 5, flex: 1}}>{this.renderSiteItem()}</View>
+        <View style={{ marginTop: 5, flex: 1}}>
+          {this.renderSiteItem()}
+          <FAB
+              style={styles.fab}
+              small
+              icon="plus"
+              onPress={() => console.log('Pressed')}
+            />
+        </View>
       );
     } else {
       return (
-        <SafeAreaView style={{marginTop: 5}}>
+        <SafeAreaView style={{ marginTop: 5 }}>
           {this.renderSearchSiteItem()}
         </SafeAreaView>
       );
@@ -471,6 +485,11 @@ const styles = StyleSheet.create({
       width: 0,
       height: 2,
     },
+  },
+  fab: {
+    position: 'absolute',
+    right: 0,
+    bottom: 0,
   },
 });
 

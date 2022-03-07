@@ -12,6 +12,7 @@ import {
 import {connect} from 'react-redux';
 import {userHasLoggedIn} from '../../actions';
 import HomePage from '../HomePage/HomePage';
+import * as Animatable from 'react-native-animatable';
 
 class PassCodePage extends React.PureComponent<any, any> {
   constructor(props: any) {
@@ -110,14 +111,14 @@ class PassCodePage extends React.PureComponent<any, any> {
                 color: 'black',
                 fontFamily: 'Nunito-Regular',
                 textAlign: 'center',
-                marginTop: '20%',
+                marginTop: '10%',
               }}>
-              Enter Pincode
+              enter pincode
             </Text>
             <View style={{flexDirection: 'row', justifyContent: 'center'}}>
               {this.renderPinText()}
             </View>
-            <Text
+            {/* <Text
               style={{
                 fontSize: 15,
                 color: 'red',
@@ -126,7 +127,17 @@ class PassCodePage extends React.PureComponent<any, any> {
                 marginTop: 10,
               }}>
               {this.state.incorrectPasscode}
-            </Text>
+            </Text> */}
+            <Animatable.Text
+            iterationCount="infinite"
+            style={{
+                fontSize: 15,
+                color: 'red',
+                fontFamily: 'Nunito-Regular',
+                textAlign: 'center',
+                marginTop: 10,
+              }} animation="shake">{this.state.incorrectPasscode}
+            </Animatable.Text>
             <View
               style={{
                 justifyContent: 'center',
