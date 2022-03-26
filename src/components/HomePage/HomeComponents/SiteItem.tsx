@@ -16,16 +16,14 @@ import {
   Button,
   Card,
   Surface,
-  FAB,
   TextInput,
 } from 'react-native-paper';
 import { BottomSheet } from 'react-native-btr';
 import SendSMS from 'react-native-sms'
 import SiteLoader from './SiteLoader';
 import { Dimensions } from 'react-native';
+import Sandwich from './Sandwich';
 
-const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
 
 class SiteItem extends React.PureComponent<any, any> {
   constructor(props: any) {
@@ -83,12 +81,9 @@ class SiteItem extends React.PureComponent<any, any> {
     } else {
       return data.map((item: any, j: any) => {
         return (
-          <Surface style={{ elevation: 1, marginTop: 3 }} key={j}>
-            {
-              console.log("RenderMethodCalled")
-            }
+          <Surface style={{ elevation: 2, marginTop: 3 }} key={j}>
             <ScrollView horizontal={true}>
-              <Card elevation={2}>
+              <Card elevation={1}>
                 <Card.Content>
                   <View style={{ flexDirection: 'row' }}>
                     <Image
@@ -173,9 +168,9 @@ class SiteItem extends React.PureComponent<any, any> {
 
   renderSiteItem = () => {
     if (Object.keys(this.state.siteData).length != 0) {
-      return this.state.siteData.data.slice(1, 10).map((item: any, j: any) => {
+      return this.state.siteData.data.map((item: any, j: any) => {
         return (
-          <Surface style={{ elevation: 5, marginTop: 3 }} key={j}>
+          <Surface style={{ elevation: 2, marginTop: 3 }} key={j}>
             <ScrollView horizontal={true} >
               <Card elevation={1}>
                 <Card.Content>
@@ -258,9 +253,6 @@ class SiteItem extends React.PureComponent<any, any> {
         );
       });
     } else {
-      {
-        console.log("sitedataLoader", this.props)
-      }
       return <SiteLoader />;
     }
   };
@@ -277,74 +269,149 @@ class SiteItem extends React.PureComponent<any, any> {
   }
 
   render(): React.ReactNode {
-    if (this.state.isMessageModalOpen) {
+    // if (this.state.isMessageModalOpen) {
+    //   return (
+    //   );
+    // }
+    // if (this.state.isInfoModalOpen) {
+    //   return (
+
+    //   );
+    // }
+    if (this.state.search_text == '') {
       return (
-        <BottomSheet visible={this.state.isMessageModalOpen}>
-          <View style={styles.bottomNavigationView}>
-            <View style={{ flexDirection: 'row' }}>
+        <View style={{ marginTop: 5, flex: 1 }}>
+          <BottomSheet visible={this.state.isMessageModalOpen}>
+            <View style={styles.bottomNavigationView}>
+              <View style={{ flexDirection: 'row' }}>
+                <Text
+                  style={{
+                    marginLeft: 10,
+                    fontSize: 22,
+                    marginTop: 10,
+                    color: 'black',
+                    fontFamily: 'Nunito-Regular',
+                  }}>
+                  Instant SMS
+                </Text>
+                <Button
+                  style={{ marginLeft: 'auto' }}
+                  icon="close"
+                  onPress={() => this.setState({ isMessageModalOpen: false })}>
+                  Close
+                </Button>
+              </View>
               <Text
                 style={{
                   marginLeft: 10,
-                  fontSize: 22,
-                  marginTop: 10,
-                  color: 'black',
+                  fontSize: 15,
+                  marginTop: 2,
                   fontFamily: 'Nunito-Regular',
                 }}>
-                Instant SMS
+                Sending command for {this.state.smsSiteName}
               </Text>
-              <Button
-                style={{ marginLeft: 'auto' }}
-                icon="close"
-                onPress={() => this.setState({ isMessageModalOpen: false })}>
-                Close
-              </Button>
+
+              <TextInput
+                label="SIM number (editable)"
+                mode="flat"
+                keyboardType='numeric'
+                onChangeText={text => this.setState({ smsNumber: text })}
+                value={this.state.smsNumber}
+                style={{ marginRight: 10, marginTop: 15, marginLeft: 10 }}
+              />
+
+              <Text
+                style={{
+                  fontFamily: 'Nunito-Regular',
+                  fontSize: 15,
+                  color: 'black',
+                  marginTop: 5,
+                  marginLeft: 10,
+                }}>
+                ●  Choose a command
+              </Text>
+
+              <View style={{ marginTop: 10, height: '100%', flex: 1 }}>
+                <ScrollView>
+                  {this.state.commands_list.map((item: any, j: any) => {
+                    return (
+                      <TouchableOpacity onPress={() => this.onMessageGo(item.split(":")[0])} key={j}>
+                        <View style={{ marginLeft: 10, marginTop: 10 }}>
+                          <Text
+                            style={{
+                              color: 'black',
+                              fontSize: 18,
+                              fontFamily: 'Nunito-Regular',
+                            }}>
+                            {item.split(':')[0]}
+                          </Text>
+                          <Text style={{ fontFamily: 'Nunito-Regular' }}>
+                            {item.split(':')[1]}
+                          </Text>
+                          <View
+                            style={{
+                              height: 1,
+                              backgroundColor: '#DCDCDC',
+                            }}></View>
+                        </View>
+                      </TouchableOpacity>
+                    );
+                  })}
+                </ScrollView>
+              </View>
             </View>
-            <Text
-              style={{
-                marginLeft: 10,
-                fontSize: 15,
-                marginTop: 2,
-                fontFamily: 'Nunito-Regular',
-              }}>
-              Sending command for {this.state.smsSiteName}
-            </Text>
-
-            <TextInput
-              label="SIM number (editable)"
-              mode="flat"
-              keyboardType='numeric'
-              onChangeText={text => this.setState({ smsNumber: text })}
-              value={this.state.smsNumber}
-              style={{ marginRight: 10, marginTop: 15, marginLeft: 10 }}
-            />
-
-            <Text
-              style={{
-                fontFamily: 'Nunito-Regular',
-                fontSize: 15,
-                color: 'black',
-                marginTop: 5,
-                marginLeft: 10,
-              }}>
-              ●  Choose a command
-            </Text>
-
-            <View style={{ marginTop: 10, height: '100%', flex: 1 }}>
-              <ScrollView>
-                {this.state.commands_list.map((item: any, j: any) => {
-                  return (
-                    <TouchableOpacity onPress={() => this.onMessageGo(item.split(":")[0])} key={j}>
-                      <View style={{ marginLeft: 10, marginTop: 10 }}>
+          </BottomSheet>
+          <BottomSheet visible={this.state.isInfoModalOpen}>
+            <View style={styles.bottomNavigationView}>
+              <View style={{ flexDirection: 'row' }}>
+                <Text
+                  style={{
+                    marginLeft: 10,
+                    fontSize: 22,
+                    marginTop: 10,
+                    color: 'black',
+                    fontFamily: 'Nunito-Regular',
+                  }}>
+                  Site Details
+                </Text>
+                <Button
+                  style={{ marginLeft: 'auto' }}
+                  icon="close"
+                  onPress={() =>
+                    this.setState({ isInfoModalOpen: false, infoModalData: '' })
+                  }>
+                  Close
+                </Button>
+              </View>
+              <Text
+                style={{
+                  marginLeft: 10,
+                  fontSize: 15,
+                  marginTop: 2,
+                  fontFamily: 'Nunito-Regular',
+                }}>
+                Showing details for {this.state.infoModalData.capacity}
+              </Text>
+              <View style={{ marginTop: 10, height: '100%', flex: 1 }}>
+                <ScrollView>
+                  {this.state.modal_data.map((item: any, j: any) => {
+                    return (
+                      <View style={{ padding: 8 }} key={j}>
                         <Text
                           style={{
-                            color: 'black',
-                            fontSize: 18,
                             fontFamily: 'Nunito-Regular',
                           }}>
                           {item.split(':')[0]}
                         </Text>
-                        <Text style={{ fontFamily: 'Nunito-Regular' }}>
-                          {item.split(':')[1]}
+                        <Text
+                          style={{
+                            fontSize: 18,
+                            color: 'black',
+                            fontFamily: 'Nunito-Regular',
+                            flexWrap: 'wrap',
+                            flex: 1,
+                          }}>
+                          {this.state.infoModalData[item.split(':')[1]]}
                         </Text>
                         <View
                           style={{
@@ -352,93 +419,13 @@ class SiteItem extends React.PureComponent<any, any> {
                             backgroundColor: '#DCDCDC',
                           }}></View>
                       </View>
-                    </TouchableOpacity>
-                  );
-                })}
-              </ScrollView>
+                    );
+                  })}
+                </ScrollView>
+              </View>
             </View>
-          </View>
-        </BottomSheet>
-      );
-    }
-    if (this.state.isInfoModalOpen) {
-      return (
-        <BottomSheet visible={this.state.isInfoModalOpen}>
-          <View style={styles.bottomNavigationView}>
-            <View style={{ flexDirection: 'row' }}>
-              <Text
-                style={{
-                  marginLeft: 10,
-                  fontSize: 22,
-                  marginTop: 10,
-                  color: 'black',
-                  fontFamily: 'Nunito-Regular',
-                }}>
-                Site Details
-              </Text>
-              <Button
-                style={{ marginLeft: 'auto' }}
-                icon="close"
-                onPress={() =>
-                  this.setState({ isInfoModalOpen: false, infoModalData: '' })
-                }>
-                Close
-              </Button>
-            </View>
-            <Text
-              style={{
-                marginLeft: 10,
-                fontSize: 15,
-                marginTop: 2,
-                fontFamily: 'Nunito-Regular',
-              }}>
-              Showing details for {this.state.infoModalData.capacity}
-            </Text>
-            <View style={{ marginTop: 10, height: '100%', flex: 1 }}>
-              <ScrollView>
-                {this.state.modal_data.map((item: any, j: any) => {
-                  return (
-                    <View style={{ padding: 8 }} key={j}>
-                      <Text
-                        style={{
-                          fontFamily: 'Nunito-Regular',
-                        }}>
-                        {item.split(':')[0]}
-                      </Text>
-                      <Text
-                        style={{
-                          fontSize: 18,
-                          color: 'black',
-                          fontFamily: 'Nunito-Regular',
-                          flexWrap: 'wrap',
-                          flex: 1,
-                        }}>
-                        {this.state.infoModalData[item.split(':')[1]]}
-                      </Text>
-                      <View
-                        style={{
-                          height: 1,
-                          backgroundColor: '#DCDCDC',
-                        }}></View>
-                    </View>
-                  );
-                })}
-              </ScrollView>
-            </View>
-          </View>
-        </BottomSheet>
-      );
-    }
-    if (this.state.search_text == '') {
-      return (
-        <View style={{ marginTop: 5, flex: 1}}>
+          </BottomSheet>
           {this.renderSiteItem()}
-          <FAB
-              style={styles.fab}
-              small
-              icon="plus"
-              onPress={() => console.log('Pressed')}
-            />
         </View>
       );
     } else {

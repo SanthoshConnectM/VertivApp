@@ -128,16 +128,15 @@ class PassCodePage extends React.PureComponent<any, any> {
               }}>
               {this.state.incorrectPasscode}
             </Text> */}
-            <Animatable.Text
-            iterationCount="infinite"
+            <Text
             style={{
                 fontSize: 15,
                 color: 'red',
                 fontFamily: 'Nunito-Regular',
                 textAlign: 'center',
                 marginTop: 10,
-              }} animation="shake">{this.state.incorrectPasscode}
-            </Animatable.Text>
+              }}>{this.state.incorrectPasscode}
+            </Text>
             <View
               style={{
                 justifyContent: 'center',

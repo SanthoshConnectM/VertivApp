@@ -1,4 +1,4 @@
-import {SafeAreaView, Text, View} from 'react-native';
+import { SafeAreaView, Text, View } from 'react-native';
 import React from 'react';
 import LottieView from 'lottie-react-native';
 
@@ -26,7 +26,7 @@ class SplashScreen extends React.Component {
             alignItems: 'center',
             justifyContent: 'center',
           }}>
-          <View style={{width: '40%', height: 70, justifyContent: 'center'}}>
+          <View style={{ width: '40%', height: 70, justifyContent: 'center' }}>
             <LottieView
               source={require('./../../assets/text_animation.json')}
               autoPlay
@@ -34,6 +34,11 @@ class SplashScreen extends React.Component {
               speed={0.2}
             />
           </View>
+          <Text style={{
+            justifyContent: "center", fontSize: 15,
+            color: 'black',
+            fontFamily: 'Nunito-Regular',
+          }}>0.0.1</Text>
         </View>
       </View>
     );
