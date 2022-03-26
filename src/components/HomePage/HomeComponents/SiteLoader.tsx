@@ -1,11 +1,22 @@
 import React from 'react';
 import LottieView from 'lottie-react-native';
 import {View, Text} from 'react-native';
+import { connect } from 'react-redux';
+import {setSiteDataRendering} from "./../../../actions/index";
 
-class SiteLoader extends React.Component {
+class SiteLoader extends React.PureComponent<any,any> {
   constructor(props: any) {
     super(props);
   }
+
+
+  componentDidMount(){
+    this.props.siteDataRenderingTrue()
+  }
+  componentWillUnmount(){
+    this.props.siteDataRenderingFalse()
+  }
+
   render(): React.ReactNode {
     return (
       <View>
@@ -29,4 +40,18 @@ class SiteLoader extends React.Component {
   }
 }
 
-export default SiteLoader;
+const mapStateToProps = (state: any) => {
+  return state;
+};
+const mapDispatchToProps = (dispatch:any) => {
+  return{
+    siteDataRenderingTrue : () => {
+      dispatch(setSiteDataRendering(true))
+    },
+    siteDataRenderingFalse : () => {
+      dispatch(setSiteDataRendering(false))
+    }
+  }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(SiteLoader);

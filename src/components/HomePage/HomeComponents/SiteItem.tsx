@@ -5,10 +5,8 @@ import {
   Image,
   View,
   ScrollView,
-  Alert,
   StyleSheet,
-  TouchableOpacity,
-  Button as RNButton,
+  TouchableOpacity
 } from 'react-native';
 import { connect } from 'react-redux';
 import {
@@ -21,8 +19,7 @@ import {
 import { BottomSheet } from 'react-native-btr';
 import SendSMS from 'react-native-sms'
 import SiteLoader from './SiteLoader';
-import { Dimensions } from 'react-native';
-import Sandwich from './Sandwich';
+import NoDataFound from '../../ErrorPage/NoDataFound';
 
 
 class SiteItem extends React.PureComponent<any, any> {
@@ -47,13 +44,24 @@ class SiteItem extends React.PureComponent<any, any> {
 
   static getDerivedStateFromProps(props: any, state: any) {
     if (props.data.siteData != undefined) {
-      state.siteData = props.data.siteData;
-      state.filteredSiteData = props.data.siteData;
+      if (props.data.searchText == "") {
+        state.siteData = props.data.siteData;
+        state.filteredSiteData = props.data.siteData;
+      }
+      if (props.data.searchText != "") {
+        let data: any = props.data.siteData.data.filter((item: any) => {
+          return Object.values(item.capacity)
+            .join('')
+            .toLowerCase()
+            .includes(props.data.searchText.toLowerCase());
+        });
+        state.siteData = { "data": data }
+      }
     }
     state.search_text = props.data.searchText;
     state.showMessageButton = props.data.firebaseData.commands_access;
     state.modal_data = props.data.firebaseData.modal_data.split(',');
-    state.commands_list = props.data.firebaseData.commands_list.split(',');
+    state.commands_list = props.data.firebaseData.commands_list.split(',')
     return state;
   }
 
@@ -67,103 +75,6 @@ class SiteItem extends React.PureComponent<any, any> {
 
   handleInfoClick = (item: any) => {
     this.setState({ isInfoModalOpen: true, infoModalData: item });
-  };
-
-  renderSearchSiteItem = () => {
-    let data: any = this.state.siteData.data.filter((item: any) => {
-      return Object.values(item.capacity)
-        .join('')
-        .toLowerCase()
-        .includes(this.state.search_text.toLowerCase());
-    });
-    if (data.length == 0) {
-      return <Text>No sites found</Text>;
-    } else {
-      return data.map((item: any, j: any) => {
-        return (
-          <Surface style={{ elevation: 2, marginTop: 3 }} key={j}>
-            <ScrollView horizontal={true}>
-              <Card elevation={1}>
-                <Card.Content>
-                  <View style={{ flexDirection: 'row' }}>
-                    <Image
-                      style={{ width: 50, height: 50 }}
-                      source={{
-                        uri:
-                          'https://vertiv.yantracloud.io/' + item.assetImageUrl,
-                      }}
-                    />
-                    <View>
-                      <View style={{ flexDirection: 'row' }}>
-                        <View style={{ flexDirection: 'row' }}>
-                          <Text
-                            style={{
-                              marginLeft: 10,
-                              marginTop: -1,
-                              fontSize: 20,
-                              color: 'black',
-                              fontFamily: 'Nunito-Regular',
-                            }}>
-                            {item.assetId}
-                          </Text>
-                          <View style={{ marginTop: -15, marginLeft: -10 }}>
-                            {item.tagStatus === 'RTU Running' ? (
-                              <Button
-                                icon="trending-up"
-                                color="green"
-                                labelStyle={{ fontSize: 25 }}>
-                                {''}
-                              </Button>
-                            ) : (
-                              <Button
-                                icon="trending-down"
-                                color="red"
-                                labelStyle={{ fontSize: 25 }}>
-                                {''}
-                              </Button>
-                            )}
-                          </View>
-                        </View>
-                      </View>
-                      <View>
-                        <Text
-                          style={{
-                            marginLeft: 10,
-                            marginTop: -10,
-                            fontSize: 15,
-                            fontFamily: 'Nunito-Regular',
-                          }}>
-                          {item.capacity}
-                        </Text>
-                      </View>
-                    </View>
-                  </View>
-                </Card.Content>
-                <Card.Actions>
-                  {this.state.showMessageButton && (
-                    <Button
-                      icon={'message'}
-                      onPress={() =>
-                        this.handleMessageClick(
-                          item.contactDetail,
-                          item.capacity,
-                        )
-                      }>
-                      MESSAGE
-                    </Button>
-                  )}
-                  <Button
-                    icon={'information'}
-                    onPress={() => this.handleInfoClick(item)}>
-                    INFO
-                  </Button>
-                </Card.Actions>
-              </Card>
-            </ScrollView>
-          </Surface>
-        );
-      });
-    }
   };
 
   renderSiteItem = () => {
@@ -269,18 +180,12 @@ class SiteItem extends React.PureComponent<any, any> {
   }
 
   render(): React.ReactNode {
-    // if (this.state.isMessageModalOpen) {
-    //   return (
-    //   );
-    // }
-    // if (this.state.isInfoModalOpen) {
-    //   return (
-
-    //   );
-    // }
-    if (this.state.search_text == '') {
+    if (this.state.search_text != "" && this.state.siteData.data && this.state.siteData.data.length == 0) {
+      return (<NoDataFound/>)
+    }
+    else {
       return (
-        <View style={{ marginTop: 5, flex: 1 }}>
+        <SafeAreaView style={{ marginTop: 5, flex: 1 }}>
           <BottomSheet visible={this.state.isMessageModalOpen}>
             <View style={styles.bottomNavigationView}>
               <View style={{ flexDirection: 'row' }}>
@@ -426,12 +331,6 @@ class SiteItem extends React.PureComponent<any, any> {
             </View>
           </BottomSheet>
           {this.renderSiteItem()}
-        </View>
-      );
-    } else {
-      return (
-        <SafeAreaView style={{ marginTop: 5 }}>
-          {this.renderSearchSiteItem()}
         </SafeAreaView>
       );
     }

@@ -6,7 +6,8 @@ import {
   GET_SITE_DATA,
   SET_SEARCH_TEXT,
   CLEAR_SEARCH_TEXT,
-  SITE_DATA_IS_LOADING
+  SITE_DATA_IS_LOADING,
+  SITE_DATA_RENDERING
 } from './types';
 
 export const getFirebaseData = (message: any) => {
@@ -63,3 +64,10 @@ export const siteDataIsLoading = (data:any) => {
     payload:data
   }
 } 
+
+export const setSiteDataRendering = (data:any) => {
+  return{
+    type:SITE_DATA_RENDERING,
+    payload:data
+  }
+}

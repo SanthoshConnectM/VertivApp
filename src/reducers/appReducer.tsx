@@ -8,6 +8,7 @@ import {
   SET_SEARCH_TEXT,
   CLEAR_SEARCH_TEXT,
   SITE_DATA_IS_LOADING,
+  SITE_DATA_RENDERING
 } from '../actions/types';
 
 let vertivState: any = {
@@ -17,6 +18,7 @@ let vertivState: any = {
   siteData: {},
   searchText: '',
   siteDataFetchFailed:false,
+  siteDataRendered:true,
 
   //loading state
   siteDataLoaded: false,
@@ -77,6 +79,11 @@ export const appReducer = (state = vertivState, action: Actions) => {
       return{
         ...state,
         siteDataIsLoading:action.payload 
+      }
+    case SITE_DATA_RENDERING:
+      return{
+        ...state,
+        siteDataRendered:action.payload
       }
     default:
       return {
