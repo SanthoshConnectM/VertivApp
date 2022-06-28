@@ -302,22 +302,26 @@ class SiteItem extends React.PureComponent<any, any> {
                   {this.state.modal_data.map((item: any, j: any) => {
                     return (
                       <View style={{ padding: 8 }} key={j}>
+                        <View style={{ flexDirection: 'row' }}>
                         <Text
                           style={{
                             fontFamily: 'Nunito-Regular',
+                            fontSize: 18,
+                            color: 'black',
                           }}>
                           {item.split(':')[0]}
                         </Text>
                         <Text
                           style={{
                             fontSize: 18,
-                            color: 'black',
                             fontFamily: 'Nunito-Regular',
                             flexWrap: 'wrap',
+                            textAlign:"right",
                             flex: 1,
                           }}>
                           {this.state.infoModalData[item.split(':')[1]]}
                         </Text>
+                        </View>
                         <View
                           style={{
                             height: 1,
